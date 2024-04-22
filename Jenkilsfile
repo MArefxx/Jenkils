@@ -1,1 +1,73 @@
+pipeline {
+    agent any
+
+    environment {
+        // Set your Terraform version
+        TERRAFORM_VERSION = '1.5.7' // Specify your version
+        // set your ansible version 
+        ANSIBLE_VERSION = '2.10' // specify your version
+    }
+'''
+ stage('Install Ansible') {
+            steps {
+                // Install the latest version of Ansible using pip
+                sh 'pip install --upgrade ansible' // Use the package manager and flags as per your setup
+            }
+        }
+'''
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // your GitHub repository of Terraform files
+                git 'https://github.com/MArefxx/Jenkils/tree/main/aref_demo' 
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -out=plan.out' // Save the plan to a file for later use
+            }
+        }
+
+        stage('Approve Plan') {
+            steps {
+                // Manual approval for applying the plan
+                input message: 'Do you want to apply this plan?', ok: 'Apply'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                // Apply the Terraform deployment
+                sh 'terraform apply plan.out' 
+            }
+        }
+         stage('Ansible') {
+            steps {
+                // Execute Ansible playbook
+                sh 'ansible-playbook -i inventory_file playbook.yml'  // Replace 'inventory_file' and 'playbook.yml' with your files
+            }
+        }
+    }
+
+    post {
+        always {
+            
+            echo 'Pipeline completed'
+        }
+        success {
+            echo 'Pipeline was successful'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}
 
