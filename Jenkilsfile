@@ -7,14 +7,6 @@ pipeline {
         // set your ansible version 
         ANSIBLE_VERSION = '2.10' // specify your version
     }
-'''
- stage('Install Ansible') {
-            steps {
-                // Install the latest version of Ansible using pip
-                sh 'pip install --upgrade ansible' // Use the package manager and flags as per your setup
-            }
-        }
-'''
 
     stages {
         stage('Checkout') {
