@@ -1,0 +1,4 @@
+- name: my play with handlers
+  hosts: all
+  roles:
+   - nginx
