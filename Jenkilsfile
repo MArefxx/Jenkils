@@ -11,8 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // your GitHub repository of Terraform files
-                git 'https://github.com/MArefxx/Jenkils.git' 
+                git branch: 'main', url: 'https://github.com/MArefxx/Jenkils.git'
             }
         }
 
