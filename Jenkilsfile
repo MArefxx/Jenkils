@@ -7,6 +7,7 @@ pipeline {
         // set your ansible version 
         //ANSIBLE_VERSION = '2.10' // specify your version
     }
+
     stages {
         stage('Setup Environment') {
             steps {
@@ -39,10 +40,8 @@ pipeline {
                 }
             }
         }
-    }
+        
 
-
-    stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/MArefxx/Jenkils.git'
