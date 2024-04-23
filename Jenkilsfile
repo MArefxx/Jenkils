@@ -1,47 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        // Set your Terraform version
-       // TERRAFORM_VERSION = '1.5.7' // Specify your version
-        // set your ansible version 
-        //ANSIBLE_VERSION = '2.10' // specify your version
-    }
-
+  
     stages {
-        stage('Setup Environment') {
-            steps {
-                script {
-                    // Update package lists
-                    sh 'sudo apt update'
 
-                    // Install required dependencies
-                    sh 'sudo apt install -y software-properties-common curl wget unzip'
-
-                    // Install Terraform
-                    echo 'Installing Terraform...'
-                    // Fetch latest Terraform version and download the zip file
-                    def terraformVersion = sh(script: "curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r '.current_version'", returnStdout: true).trim()
-                    sh "wget https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip"
-                    // Unzip and move the binary
-                    sh 'unzip terraform_${terraformVersion}_linux_amd64.zip'
-                    sh 'sudo mv terraform /usr/local/bin/'
-                    // Verify Terraform installation
-                    sh 'terraform -v'
-
-                    // Install Ansible
-                    echo 'Installing Ansible...'
-                    // Add Ansible PPA and update package lists
-                    sh 'sudo add-apt-repository --yes --update ppa:ansible/ansible'
-                    // Install Ansible
-                    sh 'sudo apt install -y ansible'
-                    // Verify Ansible installation
-                    sh 'ansible --version'
-                }
-            }
-        }
-        
-
+    
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/MArefxx/Jenkils.git'
