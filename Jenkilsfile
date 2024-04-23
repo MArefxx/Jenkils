@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // your GitHub repository of Terraform files
-                git 'https://github.com/MArefxx/Jenkils/tree/main/aref_demo' 
+                git 'https://github.com/MArefxx/Jenkils.git' 
             }
         }
 
